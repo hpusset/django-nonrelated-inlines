@@ -33,7 +33,7 @@ class NonrelatedInlineMixin:
     def get_form_queryset(self, obj):
         raise NotImplementedError()
 
-    def save_new_instance(self, parent, instance):
+    def save_new_instance(self, request, parent, instance):
         raise NotImplementedError()
 
     def save_formset(self, request, form, formset, change):
@@ -80,7 +80,7 @@ class NonrelatedInlineMixin:
 
         return nonrelated_inlineformset_factory(
             self.model,
-            save_new_instance=self.save_new_instance,
+            save_new_instance=partial(self.save_new_instance, request),
             **defaults
         )
 
